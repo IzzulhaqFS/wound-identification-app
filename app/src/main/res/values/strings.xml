@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AplikasiPengidentifikasiLuka</string>
+    <string name="camera_button_content_description">Open Camera</string>
+    <string name="take_photo">Ambil Foto</string>
 </resources>
