@@ -7,33 +7,32 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tv_open_camera"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/take_photo"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_marginTop="200dp"
-        app:layout_constraintBottom_toTopOf="@id/btn_camera"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageButton
-        android:id="@+id/btn_camera"
-        android:layout_width="120dp"
-        android:layout_height="100dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/baseline_photo_camera_24_white"
-        android:background="@color/design_default_color_primary"
-        android:padding="8dp"
-        android:layout_marginBottom="200dp"
+        android:padding="16dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_open_camera"
-        app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@string/camera_button_content_description" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btn_wound_check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/wound_check"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btn_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/history"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

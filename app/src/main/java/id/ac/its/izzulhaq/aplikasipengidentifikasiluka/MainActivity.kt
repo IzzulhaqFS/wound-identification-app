@@ -1,11 +1,13 @@
 package id.ac.its.izzulhaq.aplikasipengidentifikasiluka
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageButton
+import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var btnCamera: ImageButton
+    private lateinit var btnWoundCheck: Button
+    private lateinit var btnHistory: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -13,14 +15,24 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.title = TITLE
 
-        btnCamera = findViewById(R.id.btn_camera)
+        btnWoundCheck = findViewById(R.id.btn_wound_check)
+        btnHistory = findViewById(R.id.btn_history)
 
-        btnCamera.setOnClickListener {
-            startCamera()
+        btnWoundCheck.setOnClickListener {
+            goToWoundCheck()
+        }
+
+        btnHistory.setOnClickListener {
+            goToHistory()
         }
     }
 
-    private fun startCamera() {
+    private fun goToWoundCheck() {
+        val intent = Intent(this@MainActivity, WoundCheckActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun goToHistory() {
 
     }
 
