@@ -1,9 +1,10 @@
-package id.ac.its.izzulhaq.aplikasipengidentifikasiluka
+package id.ac.its.izzulhaq.aplikasipengidentifikasiluka.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.R
 
 class MainActivity : AppCompatActivity() {
     private lateinit var btnWoundCheck: Button
