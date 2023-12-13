@@ -7,20 +7,27 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.R
+import kotlinx.coroutines.delay
 import java.io.File
 
 class WoundCheckActivity : AppCompatActivity() {
     private lateinit var btnCamera: Button
     private lateinit var btnGallery: Button
+    private lateinit var btnProcess: Button
+    private lateinit var btnSave: Button
+    private lateinit var btnReset: Button
     private lateinit var imgWound: ImageView
+    private lateinit var progressBar: ProgressBar
     private lateinit var currentPhotoPath: String
 
     private var getFile: File? = null
@@ -41,10 +48,18 @@ class WoundCheckActivity : AppCompatActivity() {
 
         btnCamera = findViewById(R.id.btn_camera)
         btnGallery = findViewById(R.id.btn_gallery)
+        btnProcess = findViewById(R.id.btn_process)
+        btnSave = findViewById(R.id.btn_save)
+        btnReset = findViewById(R.id.btn_reset)
         imgWound = findViewById(R.id.img_wound)
+        progressBar = findViewById(R.id.progress_bar)
 
         btnCamera.setOnClickListener {
             startCamera()
+        }
+
+        btnProcess.setOnClickListener {
+            processImage()
         }
     }
 
@@ -78,6 +93,15 @@ class WoundCheckActivity : AppCompatActivity() {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
             launcherIntentCamera.launch(intent)
         }
+    }
+
+    private fun processImage() {
+        btnProcess.visibility = View.INVISIBLE
+        progressBar.visibility = View.VISIBLE
+        Thread.sleep(5000)
+        progressBar.visibility = View.GONE
+        btnSave.visibility = View.VISIBLE
+        btnReset.visibility = View.VISIBLE
     }
 
     companion object {

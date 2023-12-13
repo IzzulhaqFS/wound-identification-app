@@ -7,4 +7,10 @@
     <string name="wound_image">Gambar Luka</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
+    <string name="wound_type">Jenis Luka</string>
+    <string name="accuracy">Akurasi</string>
+    <string name="laserisasi">Laserisasi</string>
+    <string name="process">Process</string>
+    <string name="save">save</string>
+    <string name="reset">reset</string>
 </resources>
