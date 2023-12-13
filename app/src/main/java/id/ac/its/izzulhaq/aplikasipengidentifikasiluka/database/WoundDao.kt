@@ -14,7 +14,7 @@ interface WoundDao {
     fun getAll(): LiveData<List<Wound>>
 
     @Query("SELECT * FROM wound WHERE id = :id")
-    fun getById(id: Int): LiveData<Wound>
+    fun getById(id: Int): Wound
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertWound(wound: Wound)
