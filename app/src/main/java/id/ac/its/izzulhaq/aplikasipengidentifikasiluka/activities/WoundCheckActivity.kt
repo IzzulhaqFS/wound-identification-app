@@ -11,14 +11,21 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.lifecycle.ViewModelProvider
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.R
+import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.models.Wound
+import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.viewmodels.ViewModelFactory
+import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.viewmodels.WoundCheckViewModel
 import kotlinx.coroutines.delay
 import java.io.File
+import java.time.LocalDate
+import java.util.Date
 
 class WoundCheckActivity : AppCompatActivity() {
     private lateinit var btnCamera: Button
@@ -28,7 +35,11 @@ class WoundCheckActivity : AppCompatActivity() {
     private lateinit var btnReset: Button
     private lateinit var imgWound: ImageView
     private lateinit var progressBar: ProgressBar
+    private lateinit var tvWoundType: TextView
+    private lateinit var tvWoundTypeValue: TextView
     private lateinit var currentPhotoPath: String
+
+    private lateinit var viewModel: WoundCheckViewModel
 
     private var getFile: File? = null
 
@@ -46,6 +57,8 @@ class WoundCheckActivity : AppCompatActivity() {
             )
         }
 
+        viewModel = obtainViewModel(this@WoundCheckActivity)
+
         btnCamera = findViewById(R.id.btn_camera)
         btnGallery = findViewById(R.id.btn_gallery)
         btnProcess = findViewById(R.id.btn_process)
@@ -53,6 +66,8 @@ class WoundCheckActivity : AppCompatActivity() {
         btnReset = findViewById(R.id.btn_reset)
         imgWound = findViewById(R.id.img_wound)
         progressBar = findViewById(R.id.progress_bar)
+        tvWoundType = findViewById(R.id.tv_wound_type)
+        tvWoundTypeValue = findViewById(R.id.tv_wound_type_value)
 
         btnCamera.setOnClickListener {
             startCamera()
@@ -60,6 +75,10 @@ class WoundCheckActivity : AppCompatActivity() {
 
         btnProcess.setOnClickListener {
             processImage()
+        }
+
+        btnSave.setOnClickListener {
+            saveWoundCheck()
         }
     }
 
@@ -100,8 +119,28 @@ class WoundCheckActivity : AppCompatActivity() {
         progressBar.visibility = View.VISIBLE
         Thread.sleep(5000)
         progressBar.visibility = View.GONE
+        tvWoundType.visibility = View.VISIBLE
+        tvWoundTypeValue.visibility = View.VISIBLE
         btnSave.visibility = View.VISIBLE
         btnReset.visibility = View.VISIBLE
+    }
+
+    private fun saveWoundCheck() {
+        val date = Date()
+        val woundType = tvWoundTypeValue.text.toString()
+
+        val wound = Wound(0,
+            currentPhotoPath,
+            date,
+            woundType
+        )
+
+        viewModel.insert(wound)
+    }
+
+    private fun obtainViewModel(activity: AppCompatActivity): WoundCheckViewModel {
+        val factory = ViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity, factory)[WoundCheckViewModel::class.java]
     }
 
     companion object {
