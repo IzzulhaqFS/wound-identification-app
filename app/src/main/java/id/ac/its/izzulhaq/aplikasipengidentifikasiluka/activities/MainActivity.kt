@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun goToHistory() {
-
+        val intent = Intent(this@MainActivity, HistoryActivity::class.java)
+        startActivity(intent)
     }
 
     companion object {

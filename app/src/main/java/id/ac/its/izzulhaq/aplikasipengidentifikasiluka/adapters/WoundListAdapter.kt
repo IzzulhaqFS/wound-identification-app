@@ -31,12 +31,9 @@ class WoundListAdapter(private val wounds: List<Wound>) : RecyclerView.Adapter<W
             val photo = BitmapFactory.decodeFile(photoFile.path)
             imgWound.setImageBitmap(photo)
 
-            tvWoundType.text = wound.woundType
+            tvWoundType.text = wound.woundType.toString()
 
-            val formatter = SimpleDateFormat("dd-MMM-yyyy", Locale.US)
-            val date = wound.checkDate
-            val checkDate = formatter.format(date)
-            tvCheckDate.text = checkDate
+            tvCheckDate.text = wound.checkDate
         }
     }
 

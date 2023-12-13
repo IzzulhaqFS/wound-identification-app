@@ -15,7 +15,7 @@ data class Wound(
     val photoUri: String? = null,
 
     @ColumnInfo(name = "check_date")
-    val checkDate: Date,
+    val checkDate: String,
 
     @ColumnInfo(name = "wound_type")
     val woundType: String? = null

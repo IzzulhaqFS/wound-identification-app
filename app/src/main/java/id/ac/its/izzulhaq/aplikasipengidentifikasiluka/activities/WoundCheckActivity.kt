@@ -24,8 +24,10 @@ import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.viewmodels.ViewModelFacto
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.viewmodels.WoundCheckViewModel
 import kotlinx.coroutines.delay
 import java.io.File
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Date
+import java.util.Locale
 
 class WoundCheckActivity : AppCompatActivity() {
     private lateinit var btnCamera: Button
@@ -115,6 +117,7 @@ class WoundCheckActivity : AppCompatActivity() {
     }
 
     private fun processImage() {
+        tvWoundTypeValue.text = getText(R.string.laserisasi)
         btnProcess.visibility = View.INVISIBLE
         progressBar.visibility = View.VISIBLE
         Thread.sleep(5000)
@@ -126,12 +129,14 @@ class WoundCheckActivity : AppCompatActivity() {
     }
 
     private fun saveWoundCheck() {
+        val formatter = SimpleDateFormat("dd-MMM-yyyy", Locale.US)
         val date = Date()
+        val dateFormat = formatter.format(date)
         val woundType = tvWoundTypeValue.text.toString()
 
         val wound = Wound(0,
             currentPhotoPath,
-            date,
+            dateFormat,
             woundType
         )
 
