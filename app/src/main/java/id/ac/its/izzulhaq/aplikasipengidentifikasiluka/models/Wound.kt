@@ -3,7 +3,6 @@ package id.ac.its.izzulhaq.aplikasipengidentifikasiluka.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.Date
 
 @Entity(tableName = "wound")
 data class Wound(

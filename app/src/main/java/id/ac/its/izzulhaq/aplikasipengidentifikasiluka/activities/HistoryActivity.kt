@@ -1,7 +1,7 @@
 package id.ac.its.izzulhaq.aplikasipengidentifikasiluka.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +10,6 @@ import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.adapters.WoundListAdapter
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.models.Wound
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.viewmodels.HistoryViewModel
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.viewmodels.ViewModelFactory
-import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.viewmodels.WoundCheckViewModel
 
 class HistoryActivity : AppCompatActivity() {
     private lateinit var rvWound: RecyclerView

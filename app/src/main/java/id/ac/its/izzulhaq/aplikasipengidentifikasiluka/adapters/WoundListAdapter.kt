@@ -1,5 +1,6 @@
 package id.ac.its.izzulhaq.aplikasipengidentifikasiluka.adapters
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +9,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.R
+import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.activities.WoundDetailActivity
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.models.Wound
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class WoundListAdapter(private val wounds: List<Wound>) : RecyclerView.Adapter<WoundListAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -34,6 +34,12 @@ class WoundListAdapter(private val wounds: List<Wound>) : RecyclerView.Adapter<W
             tvWoundType.text = wound.woundType.toString()
 
             tvCheckDate.text = wound.checkDate
+
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, WoundDetailActivity::class.java)
+                intent.putExtra(WoundDetailActivity.EXTRA_ID, wound.id)
+                itemView.context.startActivity(intent)
+            }
         }
     }
 

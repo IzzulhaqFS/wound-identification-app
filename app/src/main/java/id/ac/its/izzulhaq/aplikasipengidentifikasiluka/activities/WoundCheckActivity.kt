@@ -22,10 +22,8 @@ import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.R
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.models.Wound
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.viewmodels.ViewModelFactory
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.viewmodels.WoundCheckViewModel
-import kotlinx.coroutines.delay
 import java.io.File
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.Date
 import java.util.Locale
 

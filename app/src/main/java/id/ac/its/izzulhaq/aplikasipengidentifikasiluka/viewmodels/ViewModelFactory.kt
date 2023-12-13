@@ -30,6 +30,9 @@ class ViewModelFactory private constructor(private val mApplication: Application
             modelClass.isAssignableFrom(HistoryViewModel::class.java) -> {
                 HistoryViewModel(mApplication) as T
             }
+            modelClass.isAssignableFrom(WoundDetailViewModel::class.java) -> {
+                WoundDetailViewModel(mApplication) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
     }
