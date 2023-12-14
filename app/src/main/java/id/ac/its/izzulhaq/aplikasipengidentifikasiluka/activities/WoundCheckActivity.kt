@@ -149,6 +149,8 @@ class WoundCheckActivity : AppCompatActivity() {
         tvWoundTypeValue.visibility = View.VISIBLE
         btnSave.visibility = View.VISIBLE
         btnReset.visibility = View.VISIBLE
+
+        // TODO function to access machine learning model
     }
 
     private fun saveWoundCheck() {
