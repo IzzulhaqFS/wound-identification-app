@@ -2,6 +2,7 @@ package id.ac.its.izzulhaq.aplikasipengidentifikasiluka.activities
 
 import android.Manifest
 import android.content.Intent
+import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -20,6 +21,7 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.R
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.models.Wound
+import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.uriToFile
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.viewmodels.ViewModelFactory
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.viewmodels.WoundCheckViewModel
 import java.io.File
@@ -73,6 +75,10 @@ class WoundCheckActivity : AppCompatActivity() {
             startCamera()
         }
 
+        btnGallery.setOnClickListener {
+            startGallery()
+        }
+
         btnProcess.setOnClickListener {
             processImage()
         }
@@ -98,6 +104,17 @@ class WoundCheckActivity : AppCompatActivity() {
         }
     }
 
+    private val launcherIntentGallery = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == RESULT_OK) {
+            val selectedImg: Uri = it.data?.data as Uri
+            val myFile = uriToFile(selectedImg, this)
+            getFile = myFile
+            imgWound.setImageURI(selectedImg)
+        }
+    }
+
     private fun startCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.resolveActivity(packageManager)
@@ -112,6 +129,14 @@ class WoundCheckActivity : AppCompatActivity() {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
             launcherIntentCamera.launch(intent)
         }
+    }
+
+    private fun startGallery() {
+        val intent = Intent()
+        intent.action = ACTION_GET_CONTENT
+        intent.type = "image/*"
+        val chooser = Intent.createChooser(intent, "Choose a picture")
+        launcherIntentGallery.launch(chooser)
     }
 
     private fun processImage() {
