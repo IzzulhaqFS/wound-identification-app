@@ -1,6 +1,7 @@
 package id.ac.its.izzulhaq.aplikasipengidentifikasiluka.activities
 
 import android.graphics.BitmapFactory
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -20,6 +21,7 @@ class WoundDetailActivity : AppCompatActivity() {
     private lateinit var btnDelete: Button
 
     private lateinit var viewModel: WoundDetailViewModel
+    private var wound: Wound? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,13 +34,19 @@ class WoundDetailActivity : AppCompatActivity() {
         tvCheckDate  = findViewById(R.id.tv_check_date_detail)
         btnDelete = findViewById(R.id.btn_delete)
 
-        val woundId = intent.getIntExtra(EXTRA_ID, 0)
-        val wound = viewModel.getById(woundId)
-        showDetail(wound)
+        wound = when {
+            Build.VERSION.SDK_INT >= 33 -> intent.getParcelableExtra(EXTRA_WOUND, Wound::class.java)
+            Build.VERSION.SDK_INT < 33 -> @Suppress("DEPRECATION") intent.getParcelableExtra(
+                EXTRA_WOUND)
+            else -> null
+        }
+
+        wound?.let { showDetail(it) }
 
         btnDelete.setOnClickListener {
-            viewModel.delete(wound)
+            wound?.let { it1 -> viewModel.delete(it1) }
         }
+
     }
 
     private fun showDetail(wound: Wound) {
@@ -57,6 +65,6 @@ class WoundDetailActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val EXTRA_ID = "extra_id"
+        const val EXTRA_WOUND = "extra_wound"
     }
 }

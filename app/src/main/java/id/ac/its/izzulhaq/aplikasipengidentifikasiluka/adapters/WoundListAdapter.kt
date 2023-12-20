@@ -37,7 +37,7 @@ class WoundListAdapter(private val wounds: List<Wound>) : RecyclerView.Adapter<W
 
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context, WoundDetailActivity::class.java)
-                intent.putExtra(WoundDetailActivity.EXTRA_ID, wound.id)
+                intent.putExtra(WoundDetailActivity.EXTRA_WOUND, wound)
                 itemView.context.startActivity(intent)
             }
         }

@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -24,7 +25,12 @@ import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.models.Wound
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.uriToFile
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.viewmodels.ViewModelFactory
 import id.ac.its.izzulhaq.aplikasipengidentifikasiluka.viewmodels.WoundCheckViewModel
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -86,6 +92,10 @@ class WoundCheckActivity : AppCompatActivity() {
         btnSave.setOnClickListener {
             saveWoundCheck()
         }
+
+        btnReset.setOnClickListener {
+            resetUI()
+        }
     }
 
     private fun allPermissionGranted() = REQUIRED_PERMISSIONS.all {
@@ -140,17 +150,19 @@ class WoundCheckActivity : AppCompatActivity() {
     }
 
     private fun processImage() {
-        tvWoundTypeValue.text = getText(R.string.laserisasi)
+//        tvWoundTypeValue.text = getText(R.string.laserisasi)
         btnProcess.visibility = View.INVISIBLE
-        progressBar.visibility = View.VISIBLE
-        Thread.sleep(5000)
-        progressBar.visibility = View.GONE
+//        progressBar.visibility = View.VISIBLE
+//        Thread.sleep(5000)
+//        progressBar.visibility = View.GONE
+
+        val response = uploadImage()
+        tvWoundTypeValue.text = response
+
         tvWoundType.visibility = View.VISIBLE
         tvWoundTypeValue.visibility = View.VISIBLE
         btnSave.visibility = View.VISIBLE
         btnReset.visibility = View.VISIBLE
-
-        // TODO function to access machine learning model
     }
 
     private fun saveWoundCheck() {
@@ -168,9 +180,49 @@ class WoundCheckActivity : AppCompatActivity() {
         viewModel.insert(wound)
     }
 
+    private fun resetUI() {
+        imgWound.setImageBitmap(null)
+        tvWoundType.visibility = View.INVISIBLE
+        tvWoundTypeValue.visibility = View.INVISIBLE
+        btnSave.visibility = View.INVISIBLE
+        btnReset.visibility = View.INVISIBLE
+        btnProcess.visibility = View.VISIBLE
+    }
+
     private fun obtainViewModel(activity: AppCompatActivity): WoundCheckViewModel {
         val factory = ViewModelFactory.getInstance(activity.application)
         return ViewModelProvider(activity, factory)[WoundCheckViewModel::class.java]
+    }
+
+    private fun uploadImage(): String {
+        if (getFile != null) {
+            val file = reduceImageFile(getFile as File)
+
+            val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                "image",
+                file.name,
+                requestImageFile
+            )
+
+            return viewModel.predict(imageMultipart)
+        }
+        return "Image not found"
+    }
+
+    private fun reduceImageFile(file: File): File {
+        val bitmap = BitmapFactory.decodeFile(file.path)
+        var compressQuality = 100
+        var streamLength: Int
+        do {
+            val bmpStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
+            val bmpPicByteArray = bmpStream.toByteArray()
+            streamLength = bmpPicByteArray.size
+            compressQuality -= 5
+        } while (streamLength > 1000000)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
+        return file
     }
 
     companion object {

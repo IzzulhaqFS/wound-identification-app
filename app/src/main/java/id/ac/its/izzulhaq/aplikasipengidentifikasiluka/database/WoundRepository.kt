@@ -17,8 +17,6 @@ class WoundRepository(application: Application) {
 
     fun getAll(): LiveData<List<Wound>> = woundDao.getAll()
 
-    fun getById(id: Int): Wound = woundDao.getById(id)
-
     fun insert(wound: Wound) {
         CoroutineScope(Dispatchers.IO).launch {
             woundDao.insertWound(wound)
