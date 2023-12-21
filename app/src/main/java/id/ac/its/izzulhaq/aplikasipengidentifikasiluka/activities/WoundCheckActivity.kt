@@ -150,13 +150,22 @@ class WoundCheckActivity : AppCompatActivity() {
     }
 
     private fun processImage() {
+        uploadImage()
+//        viewModel.isProcessing().observe(this) {
+//            if (it) {
+//                progressBar.visibility = View.VISIBLE
+//            }
+//            else {
+//                progressBar.visibility = View.GONE
+//            }
+//        }
 //        tvWoundTypeValue.text = getText(R.string.laserisasi)
         btnProcess.visibility = View.INVISIBLE
 //        progressBar.visibility = View.VISIBLE
 //        Thread.sleep(5000)
 //        progressBar.visibility = View.GONE
 
-        val response = uploadImage()
+        val response = viewModel.getWoundType()
         tvWoundTypeValue.text = response
 
         tvWoundType.visibility = View.VISIBLE
@@ -194,9 +203,10 @@ class WoundCheckActivity : AppCompatActivity() {
         return ViewModelProvider(activity, factory)[WoundCheckViewModel::class.java]
     }
 
-    private fun uploadImage(): String {
+    private fun uploadImage() {
         if (getFile != null) {
             val file = reduceImageFile(getFile as File)
+//            val file = getFile as File
 
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
@@ -205,9 +215,8 @@ class WoundCheckActivity : AppCompatActivity() {
                 requestImageFile
             )
 
-            return viewModel.predict(imageMultipart)
+            viewModel.predict(imageMultipart)
         }
-        return "Image not found"
     }
 
     private fun reduceImageFile(file: File): File {
@@ -216,12 +225,12 @@ class WoundCheckActivity : AppCompatActivity() {
         var streamLength: Int
         do {
             val bmpStream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
+            bitmap.compress(Bitmap.CompressFormat.PNG, compressQuality, bmpStream)
             val bmpPicByteArray = bmpStream.toByteArray()
             streamLength = bmpPicByteArray.size
             compressQuality -= 5
         } while (streamLength > 1000000)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
+        bitmap.compress(Bitmap.CompressFormat.PNG, compressQuality, FileOutputStream(file))
         return file
     }
 
