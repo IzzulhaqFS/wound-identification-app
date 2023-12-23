@@ -18,5 +18,5 @@ class WoundCheckViewModel(application: Application) : ViewModel() {
 
     fun predict(image: MultipartBody.Part) = imagePredictRepository.predict(image)
 
-    fun getWoundType(): String = imagePredictRepository.getWoundType()
+    fun getWoundType(): LiveData<String> = imagePredictRepository.getWoundType()
 }

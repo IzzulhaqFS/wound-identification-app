@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 data class ImagePredictResponse(
 
     @field:SerializedName("wound")
-    val wound: String
+    val wound: String? = null
 )

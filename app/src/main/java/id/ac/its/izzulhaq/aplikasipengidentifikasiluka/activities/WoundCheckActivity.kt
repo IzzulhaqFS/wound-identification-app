@@ -96,6 +96,14 @@ class WoundCheckActivity : AppCompatActivity() {
         btnReset.setOnClickListener {
             resetUI()
         }
+
+        viewModel.isProcessing().observe(this) {
+            showProgressBar(it)
+        }
+
+        viewModel.getWoundType().observe(this) {
+            tvWoundTypeValue.text = it.toString()
+        }
     }
 
     private fun allPermissionGranted() = REQUIRED_PERMISSIONS.all {
@@ -121,6 +129,7 @@ class WoundCheckActivity : AppCompatActivity() {
             val selectedImg: Uri = it.data?.data as Uri
             val myFile = uriToFile(selectedImg, this)
             getFile = myFile
+            currentPhotoPath = myFile.path
             imgWound.setImageURI(selectedImg)
         }
     }
@@ -151,23 +160,7 @@ class WoundCheckActivity : AppCompatActivity() {
 
     private fun processImage() {
         uploadImage()
-//        viewModel.isProcessing().observe(this) {
-//            if (it) {
-//                progressBar.visibility = View.VISIBLE
-//            }
-//            else {
-//                progressBar.visibility = View.GONE
-//            }
-//        }
-//        tvWoundTypeValue.text = getText(R.string.laserisasi)
         btnProcess.visibility = View.INVISIBLE
-//        progressBar.visibility = View.VISIBLE
-//        Thread.sleep(5000)
-//        progressBar.visibility = View.GONE
-
-        val response = viewModel.getWoundType()
-        tvWoundTypeValue.text = response
-
         tvWoundType.visibility = View.VISIBLE
         tvWoundTypeValue.visibility = View.VISIBLE
         btnSave.visibility = View.VISIBLE
@@ -232,6 +225,15 @@ class WoundCheckActivity : AppCompatActivity() {
         } while (streamLength > 1000000)
         bitmap.compress(Bitmap.CompressFormat.PNG, compressQuality, FileOutputStream(file))
         return file
+    }
+
+    private fun showProgressBar(isProcessing: Boolean) {
+        if (isProcessing) {
+            progressBar.visibility = View.VISIBLE
+        }
+        else {
+            progressBar.visibility = View.INVISIBLE
+        }
     }
 
     companion object {

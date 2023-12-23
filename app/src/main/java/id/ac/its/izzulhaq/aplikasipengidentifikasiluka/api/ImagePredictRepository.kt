@@ -9,15 +9,15 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ImagePredictRepository {
-    private var woundType: String = "Predict Failed"
+    private val _woundType = MutableLiveData<String>()
     private val _isProcessing = MutableLiveData<Boolean>()
 
-    fun getWoundType(): String = woundType
+    fun getWoundType(): LiveData<String> = _woundType
 
     fun isProcessing(): LiveData<Boolean> = _isProcessing
 
     fun predict(image: MultipartBody.Part) {
-        //var woundType: String = "Predict Failed"
+        _woundType.value = "Uploading..."
         _isProcessing.value = true
         val client = ApiConfig.getApiService().predict(image)
         client.enqueue(object : Callback<ImagePredictResponse> {
@@ -25,19 +25,24 @@ class ImagePredictRepository {
                 call: Call<ImagePredictResponse>,
                 response: Response<ImagePredictResponse>
             ) {
+                _woundType.value = "Predicting..."
                 if (response.isSuccessful) {
-                    _isProcessing.value = false
-                    woundType = response.body()?.wound.toString()
+                    val woundType = response.body()?.wound.toString()
+                    _woundType.value = woundType
                     Log.e(TAG, "onResponse: ${response.message()}, $woundType")
+                    _isProcessing.value = false
                 }
                 else {
-                    Log.e(TAG, "onFailure: ${response.message()}, $woundType")
+                    Log.e(TAG, "onFailure: ${response.message()}")
+                    _isProcessing.value = false
+                    _woundType.value = "Failed"
                 }
             }
 
             override fun onFailure(call: Call<ImagePredictResponse>, t: Throwable) {
-                _isProcessing.value = false
                 Log.e(TAG, "onFailure: ${t.message}")
+                _isProcessing.value = false
+                _woundType.value = "Failed"
             }
 
         })
