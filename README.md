@@ -2,3 +2,8 @@
 ## Dataset
 Dataset yang digunakan menggunakan dataset Wound_dataset dari Kaggle
 https://www.kaggle.com/datasets/yasinpratomo/wound-dataset/data
+
+## Flask API
+
+
+## Pembuatan Model
