@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
 
 class ApiConfig {
     companion object {
-        private const val BASE_URL = "https://izzulhaqfs.pythonanywhere.com/"
+        private const val BASE_URL = "https://klasifikasi-luka-3-en3xtvruga-et.a.run.app"
 
         fun getApiService(): ApiService {
             val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)

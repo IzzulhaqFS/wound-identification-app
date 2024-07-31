@@ -218,7 +218,7 @@ class WoundCheckActivity : AppCompatActivity() {
         var streamLength: Int
         do {
             val bmpStream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, compressQuality, bmpStream)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
             val bmpPicByteArray = bmpStream.toByteArray()
             streamLength = bmpPicByteArray.size
             compressQuality -= 5
